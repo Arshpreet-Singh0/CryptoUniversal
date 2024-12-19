@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "./ui/Button";
 import { mnemonicToSeedSync } from "bip39";
 import { derivePath } from "ed25519-hd-key";
