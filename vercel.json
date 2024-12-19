@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "routes": [
+      {
+        "src": "/",
+        "continue": true
+      },
+      {
+        "src": "/(.*)",
+        "status": 307,
+        "headers": { "Location": "/" }
+      }
+    ]
+  }
+  
