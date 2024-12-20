@@ -18,7 +18,7 @@ const AllWallets = ({ allSolanaWallets, allEtherWallets, setSnackbarOpen }: prop
           </h1>
           {allSolanaWallets?.map((wallet, idx) => (
             <>
-              <ShowWallet wallet={wallet} key={idx} setSnackbarOpen={setSnackbarOpen}/>
+              <ShowWallet wallet={wallet} key={idx} setSnackbarOpen={setSnackbarOpen} idx={idx} type="solana"/>
             </>
           ))}
         </div>
@@ -30,7 +30,7 @@ const AllWallets = ({ allSolanaWallets, allEtherWallets, setSnackbarOpen }: prop
           </h1>
           {allEtherWallets?.map((wallet, idx) => (
             <>
-              <ShowWallet wallet={wallet} key={idx} setSnackbarOpen={setSnackbarOpen}/>
+              <ShowWallet wallet={wallet} key={idx} setSnackbarOpen={setSnackbarOpen} idx={idx} type="etherium"/>
             </>
           ))}
         </div>
