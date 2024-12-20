@@ -6,20 +6,40 @@ import { generateMnemonic } from "bip39";
 import Wallet from "./Wallet";
 import AllWallets from "./AllWallets";
 import { walletType } from "./Wallet";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const GenerateWallet = () => {
   const [secretPhrase, setSecretPhrase] = useState<string>("");
   const [allSolanaWallets, setAllSolanaWallets] = useState<walletType[]>([]);
   const [allEtherWallets, setAllEtherWallets] = useState<walletType[]>([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleGenerateMnemonic = async () => {
     setAllSolanaWallets([]);
     const mnemonic = generateMnemonic();
     setSecretPhrase(mnemonic);
   };
+  const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   return (
     <div className="flex flex-col justify-center items-center">
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        
+        onClose={()=>handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+          Key copied successfully.
+        </Alert>
+      </Snackbar>
       <h1 className="font-bold text-2xl text-[#D1D5DA]">Secret Phrase</h1>
       <Button
         text="Generate Secret Phrase"
@@ -53,6 +73,7 @@ const GenerateWallet = () => {
         setAllSolanaWallets={setAllSolanaWallets}
         allEtherWallets={allEtherWallets}
         setAllEtherWallets={setAllEtherWallets}
+        setSnackbarOpen={setSnackbarOpen}
       />
 
       {(allSolanaWallets.length > 0 || allEtherWallets.length > 0) && (
@@ -60,6 +81,7 @@ const GenerateWallet = () => {
           <AllWallets
             allSolanaWallets={allSolanaWallets}
             allEtherWallets={allEtherWallets}
+            setSnackbarOpen={setSnackbarOpen}
           />
         </div>
       )}

@@ -5,9 +5,10 @@ import ShowWallet from "./ui/ShowWallet";
 interface propsType {
   allSolanaWallets: walletType[];
   allEtherWallets: walletType[];
+  setSnackbarOpen : (state:boolean)=>void;
 }
 
-const AllWallets = ({ allSolanaWallets, allEtherWallets }: propsType) => {
+const AllWallets = ({ allSolanaWallets, allEtherWallets, setSnackbarOpen }: propsType) => {
   return (
     <div className="flex flex-col">
       {allSolanaWallets.length > 0 && (
@@ -17,7 +18,7 @@ const AllWallets = ({ allSolanaWallets, allEtherWallets }: propsType) => {
           </h1>
           {allSolanaWallets?.map((wallet, idx) => (
             <>
-              <ShowWallet wallet={wallet} key={idx} />
+              <ShowWallet wallet={wallet} key={idx} setSnackbarOpen={setSnackbarOpen}/>
             </>
           ))}
         </div>
@@ -29,7 +30,7 @@ const AllWallets = ({ allSolanaWallets, allEtherWallets }: propsType) => {
           </h1>
           {allEtherWallets?.map((wallet, idx) => (
             <>
-              <ShowWallet wallet={wallet} key={idx} />
+              <ShowWallet wallet={wallet} key={idx} setSnackbarOpen={setSnackbarOpen}/>
             </>
           ))}
         </div>

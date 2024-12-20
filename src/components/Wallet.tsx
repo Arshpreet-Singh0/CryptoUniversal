@@ -10,6 +10,7 @@ import { HDNodeWallet } from "ethers";
 import { useState } from "react";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import ContentPasteIcon from '@mui/icons-material/ContentPaste';
 
 export interface walletType {
   publicKey: string;
@@ -22,6 +23,7 @@ interface propsType {
   setAllSolanaWallets: (wallets: walletType[]) => void;
   allEtherWallets: walletType[];
   setAllEtherWallets: (wallet: walletType[]) => void;
+  setSnackbarOpen : (state:boolean)=>void,
 }
 const Wallet = ({
   mnemonic,
@@ -29,6 +31,7 @@ const Wallet = ({
   setAllSolanaWallets,
   allEtherWallets,
   setAllEtherWallets,
+  setSnackbarOpen
 }: propsType) => {
 
   const [showSolanaPrivateKey, setShowSolanaPrivateKey] = useState<boolean>(false);
@@ -79,6 +82,12 @@ const Wallet = ({
     setAllEtherWallets([...allEtherWallets, walletDetails]);
   };
 
+  const copyToClipboard = (text:string) => {
+    if(!text) return;
+    setSnackbarOpen(true);
+    navigator.clipboard.writeText(text);
+  }
+
   
 
   return (
@@ -95,14 +104,24 @@ const Wallet = ({
             Public key
           </label>{" "}
           <br />
+          <div className="flex items-center relative w-full">
           <input
             type="text"
-            className="py-2 w-full rounded-lg bg-gray-700 px-2"
+            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-10"
             value={
               allSolanaWallets[allSolanaWallets.length - 1]?.publicKey || ""
             }
             disabled
           />
+          <button
+            onClick={() => copyToClipboard(allSolanaWallets[allSolanaWallets.length-1]?.publicKey || "")}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            style={{ outline: "none" }}
+          >
+            <ContentPasteIcon className="text-[20px] text-gray-500 hover:text-white"/>
+            
+          </button>
+          </div>
         </div>
         <div>
           <div>
@@ -113,18 +132,26 @@ const Wallet = ({
         <div className="flex items-center relative w-full">
           <input
             type={showSolanaPrivateKey ? "text" : "password"}
-            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-10"
+            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-20"
             value={allSolanaWallets[allSolanaWallets.length-1]?.privateKey || ""}
             disabled
           />
           <button
             onClick={() => setShowSolanaPrivateKey(!showSolanaPrivateKey)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            className="absolute inset-y-0 right-8 pr-3 flex items-center text-white cursor-pointer"
             style={{ outline: "none" }}
           >
             {
                 showSolanaPrivateKey ? <RemoveRedEyeIcon className="text-gray-500 hover:text-white"/> : <VisibilityOffIcon className="text-gray-500 hover:text-white"/>
             }
+            
+          </button>
+          <button
+            onClick={() => copyToClipboard(allSolanaWallets[allSolanaWallets.length-1]?.privateKey || "")}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            style={{ outline: "none" }}
+          >
+            <ContentPasteIcon className="text-[20px] text-gray-500 hover:text-white"/>
             
           </button>
         </div>
@@ -143,12 +170,23 @@ const Wallet = ({
             Public key
           </label>{" "}
           <br />
+          <div className="flex items-center relative w-full">
+
           <input
             type="text"
-            className="py-2 w-full rounded-lg bg-gray-700 px-2"
+            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-10"
             value={allEtherWallets[allEtherWallets.length-1]?.publicKey || ""}
             disabled
           />
+          <button
+            onClick={() => copyToClipboard(allEtherWallets[allEtherWallets.length-1]?.publicKey || "")}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            style={{ outline: "none" }}
+          >
+            <ContentPasteIcon className="text-[20px] text-gray-500 hover:text-white"/>
+            
+          </button>
+          </div>
         </div>
           
         <div className="mt-4">
@@ -159,18 +197,26 @@ const Wallet = ({
         <div className="flex items-center relative w-full">
           <input
             type={showEtherPrivateKey ? "text" : "password"}
-            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-10"
+            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-20"
             value={allEtherWallets[allEtherWallets.length-1]?.privateKey || ""}
             disabled
           />
           <button
             onClick={() => setShowEtherPrivateKey(!showEtherPrivateKey)}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            className="absolute inset-y-0 right-8 pr-3 flex items-center text-white cursor-pointer"
             
           >
             {
                 showEtherPrivateKey ? <RemoveRedEyeIcon className="text-gray-500 hover:text-white"/> : <VisibilityOffIcon className="text-gray-500 hover:text-white"/>
             }
+            
+          </button>
+          <button
+            onClick={() => copyToClipboard(allEtherWallets[allEtherWallets.length-1]?.privateKey || "")}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            style={{ outline: "none" }}
+          >
+            <ContentPasteIcon className="text-[20px] text-gray-500 hover:text-white"/>
             
           </button>
         </div>
