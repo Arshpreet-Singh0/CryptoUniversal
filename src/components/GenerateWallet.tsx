@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/Button";
 import { generateMnemonic } from "bip39";
 import Wallet from "./Wallet";
@@ -10,9 +10,9 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 const GenerateWallet = () => {
-  const [secretPhrase, setSecretPhrase] = useState<string>(localStorage.getItem("secretPhrase") || "");
-  const [allSolanaWallets, setAllSolanaWallets] = useState<walletType[]>(getArray("solanaWallets") || []);
-  const [allEtherWallets, setAllEtherWallets] = useState<walletType[]>( getArray("etherWallets") || []);
+  const [secretPhrase, setSecretPhrase] = useState<string>("");
+  const [allSolanaWallets, setAllSolanaWallets] = useState<walletType[]>([]);
+  const [allEtherWallets, setAllEtherWallets] = useState<walletType[]>([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleGenerateMnemonic = async () => {
@@ -28,6 +28,11 @@ const GenerateWallet = () => {
     }
     return []; // Return null if the key does not exist
   }
+  useEffect(()=>{
+      setSecretPhrase(localStorage.getItem("secretPhrase") || "");
+      setAllSolanaWallets(getArray("solanaWallets"));
+      setAllEtherWallets(getArray("etherWallets"));
+  },[]);
   
   const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
