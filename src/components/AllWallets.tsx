@@ -11,7 +11,7 @@ const AllWallets = ({ allSolanaWallets, allEtherWallets }: propsType) => {
   return (
     <div className="flex flex-col">
       {allSolanaWallets.length > 0 && (
-        <div>
+        <div key={"div1"}>
           <h1 className="text-2xl font-bold mb-5 text-black">
             All Solana Wallets
           </h1>
@@ -23,7 +23,7 @@ const AllWallets = ({ allSolanaWallets, allEtherWallets }: propsType) => {
         </div>
       )}
       {allEtherWallets.length > 0 && (
-        <div>
+        <div key={"div2"}>
           <h1 className="text-2xl font-bold mb-5 text-black">
             All Etherium Wallets
           </h1>

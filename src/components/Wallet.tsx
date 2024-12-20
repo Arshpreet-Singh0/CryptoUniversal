@@ -7,6 +7,9 @@ import nacl from "tweetnacl";
 import { Keypair } from "@solana/web3.js";
 import { ethers } from "ethers";
 import { HDNodeWallet } from "ethers";
+import { useState } from "react";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 export interface walletType {
   publicKey: string;
@@ -27,6 +30,9 @@ const Wallet = ({
   allEtherWallets,
   setAllEtherWallets,
 }: propsType) => {
+
+  const [showSolanaPrivateKey, setShowSolanaPrivateKey] = useState<boolean>(false);
+  const [showEtherPrivateKey, setShowEtherPrivateKey] = useState<boolean>(false);
 
   const handleGenerateSolanaWallet = async () => {
     if (!mnemonic) return;
@@ -84,7 +90,7 @@ const Wallet = ({
           className=""
           onClick={handleGenerateSolanaWallet}
         />
-        <div>
+        <div className="mb-4">
           <label htmlFor="address" className="text-sm font-bold text-gray-400">
             Public key
           </label>{" "}
@@ -98,21 +104,33 @@ const Wallet = ({
             disabled
           />
         </div>
-
-        <div className="mt-4">
-          <label htmlFor="address" className="text-sm font-bold text-gray-400">
-            Private key
-          </label>{" "}
-          <br />
+        <div>
+          <div>
+        <label htmlFor="address" className="text-sm font-bold text-gray-400">
+          Private key
+        </label>{" "}
+        <br />
+        <div className="flex items-center relative w-full">
           <input
-            type="text"
-            className="py-2 w-full rounded-lg bg-gray-700 px-2"
-            value={
-              allSolanaWallets[allSolanaWallets.length - 1]?.privateKey || ""
-            }
+            type={showSolanaPrivateKey ? "text" : "password"}
+            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-10"
+            value={allSolanaWallets[allSolanaWallets.length-1]?.privateKey || ""}
             disabled
           />
+          <button
+            onClick={() => setShowSolanaPrivateKey(!showSolanaPrivateKey)}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            style={{ outline: "none" }}
+          >
+            {
+                showSolanaPrivateKey ? <RemoveRedEyeIcon className="text-gray-500 hover:text-white"/> : <VisibilityOffIcon className="text-gray-500 hover:text-white"/>
+            }
+            
+          </button>
         </div>
+      </div>
+        </div>
+
       </div>
       <div className="bg-gray-800 rounded-lg h-full w-[406px] p-6">
         <Button
@@ -132,19 +150,32 @@ const Wallet = ({
             disabled
           />
         </div>
-
+          
         <div className="mt-4">
-          <label htmlFor="address" className="text-sm font-bold text-gray-400">
-            Private key
-          </label>{" "}
-          <br />
+        <label htmlFor="address" className="text-sm font-bold text-gray-400">
+          Private key
+        </label>{" "}
+        <br />
+        <div className="flex items-center relative w-full">
           <input
-            type="text"
-            className="py-2 w-full rounded-lg bg-gray-700 px-2"
+            type={showEtherPrivateKey ? "text" : "password"}
+            className="py-2 w-full rounded-lg bg-gray-700 px-2 pr-10"
             value={allEtherWallets[allEtherWallets.length-1]?.privateKey || ""}
             disabled
           />
+          <button
+            onClick={() => setShowEtherPrivateKey(!showEtherPrivateKey)}
+            className="absolute inset-y-0 right-0 pr-3 flex items-center text-white cursor-pointer"
+            
+          >
+            {
+                showEtherPrivateKey ? <RemoveRedEyeIcon className="text-gray-500 hover:text-white"/> : <VisibilityOffIcon className="text-gray-500 hover:text-white"/>
+            }
+            
+          </button>
         </div>
+      </div>
+        
       </div>
     </div>
   );
