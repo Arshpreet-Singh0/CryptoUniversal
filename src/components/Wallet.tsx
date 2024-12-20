@@ -37,6 +37,12 @@ const Wallet = ({
   const [showSolanaPrivateKey, setShowSolanaPrivateKey] = useState<boolean>(false);
   const [showEtherPrivateKey, setShowEtherPrivateKey] = useState<boolean>(false);
 
+  function storeArray(key:string, array:walletType[]) {
+    const arrayString = JSON.stringify(array);
+    localStorage.setItem(key, arrayString);
+  }
+
+  
   const handleGenerateSolanaWallet = async () => {
     if (!mnemonic) return;
     const seed = mnemonicToSeedSync(mnemonic);
@@ -52,7 +58,10 @@ const Wallet = ({
     const publicKey = keypair.publicKey.toBase58();
 
     const newWallet = { publicKey, privateKey };
-    setAllSolanaWallets([...allSolanaWallets, newWallet]);
+    const allWallets = [...allSolanaWallets, newWallet];
+    storeArray("solanaWallets", allWallets);
+    
+    setAllSolanaWallets(allWallets);
   };
 
   const handleGenerateEtherWallet = async () => {
@@ -78,6 +87,8 @@ const Wallet = ({
 
     // Return the wallet details
     const walletDetails = {publicKey: wallet.address, privateKey};
+    const allWallets = [...allEtherWallets, walletDetails];
+    storeArray("etherWallets", allWallets);
 
     setAllEtherWallets([...allEtherWallets, walletDetails]);
   };

@@ -10,16 +10,25 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 
 const GenerateWallet = () => {
-  const [secretPhrase, setSecretPhrase] = useState<string>("");
-  const [allSolanaWallets, setAllSolanaWallets] = useState<walletType[]>([]);
-  const [allEtherWallets, setAllEtherWallets] = useState<walletType[]>([]);
+  const [secretPhrase, setSecretPhrase] = useState<string>(localStorage.getItem("secretPhrase") || "");
+  const [allSolanaWallets, setAllSolanaWallets] = useState<walletType[]>(getArray("solanaWallets") || []);
+  const [allEtherWallets, setAllEtherWallets] = useState<walletType[]>( getArray("etherWallets") || []);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleGenerateMnemonic = async () => {
     setAllSolanaWallets([]);
     const mnemonic = generateMnemonic();
+    localStorage.setItem("secretPhrase", mnemonic);
     setSecretPhrase(mnemonic);
   };
+  function getArray(key:string) {
+    const arrayString = localStorage.getItem(key);
+    if (arrayString) {
+      return JSON.parse(arrayString);
+    }
+    return []; // Return null if the key does not exist
+  }
+  
   const handleCloseSnackbar = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === 'clickaway') {
       return;
