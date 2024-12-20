@@ -1,56 +1,41 @@
-import React from 'react'
-import { SolanaWallet } from './GenerateWallet'
+import React from "react";
+import { walletType } from "./Wallet";
+import ShowWallet from "./ui/ShowWallet";
 
 interface propsType {
-    allSolanaWallets : SolanaWallet[],
+  allSolanaWallets: walletType[];
+  allEtherWallets: walletType[];
 }
 
-const AllWallets = ({allSolanaWallets}:propsType) => {
+const AllWallets = ({ allSolanaWallets, allEtherWallets }: propsType) => {
   return (
-    <div className="w-[1024px] border p-6 rounded-lg mt-10 bg-gray-700">
-        <h1 className='text-2xl font-bold mb-5 text-black'>All Solana Wallets</h1>
-        {allSolanaWallets?.map((wallet, idx) => (
-          <div className="text-white bg-gray-800 p-4 rounded-lg mb-4" key={idx}>
-            <div className="mb-4">
-              <label
-                htmlFor="address"
-                className="text-sm font-bold text-gray-400"
-              >
-                Public key
-              </label>{" "}
-              <br />
-              <input
-                type="text"
-                className="py-2 w-full rounded-lg bg-gray-700 px-2"
-                value={
-                  wallet.publicKey
-                }
-                disabled
-              />
+    <div className="flex flex-col">
+      {allSolanaWallets.length > 0 && (
+        <div>
+          <h1 className="text-2xl font-bold mb-5 text-black">
+            All Solana Wallets
+          </h1>
+          {allSolanaWallets?.map((wallet, idx) => (
+            <>
+              <ShowWallet wallet={wallet} key={idx} />
+            </>
+          ))}
+        </div>
+      )}
+      {allEtherWallets.length > 0 && (
+        <div>
+          <h1 className="text-2xl font-bold mb-5 text-black">
+            All Etherium Wallets
+          </h1>
+          {allEtherWallets?.map((wallet, idx) => (
+            <>
+              <ShowWallet wallet={wallet} key={idx} />
+            </>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
 
-            </div>
-            <div>
-              <label
-                htmlFor="address"
-                className="text-sm font-bold text-gray-400"
-              >
-                Private key
-              </label>{" "}
-              <br />
-              <input
-                type="text"
-                className="py-2 w-full rounded-lg bg-gray-700 px-2"
-                value={
-                  wallet.privateKey
-                }
-                disabled
-              />
-
-            </div>
-            </div>
-        ))}
-      </div>
-  )
-}
-
-export default AllWallets
+export default AllWallets;

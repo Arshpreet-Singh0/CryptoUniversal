@@ -5,15 +5,12 @@ import { Button } from "./ui/Button";
 import { generateMnemonic } from "bip39";
 import Wallet from "./Wallet";
 import AllWallets from "./AllWallets";
-
-export interface SolanaWallet {
-  publicKey: string;
-  privateKey: string;
-}
+import { walletType } from "./Wallet";
 
 const GenerateWallet = () => {
   const [secretPhrase, setSecretPhrase] = useState<string>("");
-  const [allSolanaWallets, setAllSolanaWallets] = useState<SolanaWallet[]>([]);
+  const [allSolanaWallets, setAllSolanaWallets] = useState<walletType[]>([]);
+  const [allEtherWallets, setAllEtherWallets] = useState<walletType[]>([]);
 
   const handleGenerateMnemonic = async () => {
     setAllSolanaWallets([]);
@@ -32,7 +29,9 @@ const GenerateWallet = () => {
       />
 
       <div className="mt-10">
-        <p className="text-sm text-gray-500">*Remember you secret phrase it is the only way to recover you wallet</p>
+        <p className="text-sm text-gray-500">
+          *Remember you secret phrase it is the only way to recover you wallet
+        </p>
         <div className="w-[1024px] h-[344px] bg-gray-800 rounded-lg p-5">
           <div className="grid grid-cols-4 gap-5 mt-5">
             {secretPhrase.length > 0 &&
@@ -46,16 +45,24 @@ const GenerateWallet = () => {
               ))}
           </div>
         </div>
-
       </div>
 
       <Wallet
-        secretPhrase={secretPhrase}
+        mnemonic={secretPhrase}
         allSolanaWallets={allSolanaWallets}
         setAllSolanaWallets={setAllSolanaWallets}
+        allEtherWallets={allEtherWallets}
+        setAllEtherWallets={setAllEtherWallets}
       />
-      
-      {allSolanaWallets.length>0 && <AllWallets allSolanaWallets={allSolanaWallets}/>}
+
+      {(allSolanaWallets.length > 0 || allEtherWallets.length > 0) && (
+        <div className="w-[1024px] border p-6 rounded-lg mt-10 bg-gray-700">
+          <AllWallets
+            allSolanaWallets={allSolanaWallets}
+            allEtherWallets={allEtherWallets}
+          />
+        </div>
+      )}
     </div>
   );
 };
