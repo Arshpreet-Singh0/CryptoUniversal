@@ -8,7 +8,6 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import { Button } from "./Button";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import axios from "axios";
-import { log } from "util";
 
 interface propsType {
   wallet: walletType;
@@ -36,9 +35,7 @@ const ShowWallet = ({ wallet, setSnackbarOpen, idx, type }: propsType) => {
             params: [wallet.publicKey],
             id: 1
           });
-          console.log(res);
           const balance = res?.data?.result?.value / LAMPORTS_PER_SOL;
-          console.log(balance || null);
           
           setBalance(balance);
           
