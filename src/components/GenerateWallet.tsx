@@ -17,6 +17,9 @@ const GenerateWallet = () => {
 
   const handleGenerateMnemonic = async () => {
     setAllSolanaWallets([]);
+    setAllEtherWallets([]);
+    localStorage.removeItem("solanaWallets");
+    localStorage.removeItem("etherWallets");
     const mnemonic = generateMnemonic();
     localStorage.setItem("secretPhrase", mnemonic);
     setSecretPhrase(mnemonic);
@@ -26,7 +29,7 @@ const GenerateWallet = () => {
     if (arrayString) {
       return JSON.parse(arrayString);
     }
-    return []; // Return null if the key does not exist
+    return [];
   }
   useEffect(()=>{
       setSecretPhrase(localStorage.getItem("secretPhrase") || "");

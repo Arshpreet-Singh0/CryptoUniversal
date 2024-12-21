@@ -8,6 +8,7 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import { Button } from "./Button";
 import { LAMPORTS_PER_SOL } from "@solana/web3.js";
 import axios from "axios";
+import { log } from "util";
 
 interface propsType {
   wallet: walletType;
@@ -37,6 +38,8 @@ const ShowWallet = ({ wallet, setSnackbarOpen, idx, type }: propsType) => {
           });
           console.log(res);
           const balance = res?.data?.result?.value / LAMPORTS_PER_SOL;
+          console.log(balance || null);
+          
           setBalance(balance);
           
         } catch (error) {
@@ -51,7 +54,7 @@ const ShowWallet = ({ wallet, setSnackbarOpen, idx, type }: propsType) => {
           params: [wallet.publicKey, "latest"],
         })
         const result = parseInt(res?.data?.result, 16);
-        setBalance(result);
+        setBalance(result/1e18);
         
         
       } catch (error) {
@@ -65,7 +68,14 @@ const ShowWallet = ({ wallet, setSnackbarOpen, idx, type }: propsType) => {
     <div className="text-white bg-gray-800 p-4 rounded-lg mb-4">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold mb-2">Wallet {idx + 1}</h2>
-        <Button text="Show Balance" variant="outline" onClick={()=>handleShowBalance(type)} />
+        {
+          balance==null ? (
+
+            <Button text="Show Balance" variant="outline" onClick={()=>handleShowBalance(type)} />
+          ) : (
+            <Button text="Hide Balance" variant="outline" onClick={()=>setBalance(null)} />
+          )
+        }
       </div>
       <div className="mb-4">
         <label htmlFor="address" className="text-sm font-bold text-gray-400">
